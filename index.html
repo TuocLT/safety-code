@@ -33,7 +33,13 @@
     .name-row {
       font-size: 18px;
       font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    #realtime-date {
       margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 500;
     }
 
     .highlight {
@@ -91,6 +97,7 @@
 <body>
   <div class="container">
     <div class="name-row">Vũ Thị Thu Huyền (V25050032)</div>
+    <div id="realtime-date"></div>
 
     <div class="highlight">
       Your device has met the safety regulations,<br>please scan the code
@@ -118,22 +125,4 @@
       const now = new Date();
       const date = now.toISOString().split('T')[0];
       const time = now.toTimeString().split(' ')[0];
-      datetimeEl.textContent = `${date} ${time}`;
-
-      secondsElapsed++;
-
-      // Reset every 5 minutes (300 seconds)
-      if (secondsElapsed > 300) {
-        secondsElapsed = 0;
-      }
-
-      const minutes = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
-      const seconds = String(secondsElapsed % 60).padStart(2, '0');
-      timerEl.textContent = `${minutes}:${seconds}`;
-    }
-
-    updateTime();
-    setInterval(updateTime, 1000);
-  </script>
-</body>
-</html>
+      datetimeEl.textContent = `${date} ${time
