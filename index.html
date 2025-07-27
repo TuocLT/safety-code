@@ -125,4 +125,33 @@
       const now = new Date();
       const date = now.toISOString().split('T')[0];
       const time = now.toTimeString().split(' ')[0];
-      datetimeEl.textContent = `${date} ${time
+      datetimeEl.textContent = `${date} ${time}`;
+
+      secondsElapsed++;
+
+      // Reset every 5 minutes (300 seconds)
+      if (secondsElapsed > 300) {
+        secondsElapsed = 0;
+      }
+
+      const minutes = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+      const seconds = String(secondsElapsed % 60).padStart(2, '0');
+      timerEl.textContent = `${minutes}:${seconds}`;
+    }
+
+    function updateRealDate() {
+      const now = new Date();
+      const vietnamTime = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+      const year = vietnamTime.getFullYear();
+      const month = String(vietnamTime.getMonth() + 1).padStart(2, '0');
+      const day = String(vietnamTime.getDate()).padStart(2, '0');
+      const formattedDate = `${year}/${month}/${day}`;
+      document.getElementById("realtime-date").textContent = `Ngày: ${formattedDate}`;
+    }
+
+    updateRealDate();
+    updateTime();
+    setInterval(updateTime, 1000);
+  </script>
+</body>
+</html>
