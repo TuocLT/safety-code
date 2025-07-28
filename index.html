@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Safety QR Code</title>
+  <title>QR Safety</title>
 
-  <!-- Cấu hình iOS Web App -->
+  <!-- PWA Config -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1b1b2f">
+
+  <!-- iOS Web App Config -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="QR Safety">
-  <link rel="apple-touch-icon" href="https://i.postimg.cc/N01Hhdcn/ok.png">
-
-  <!-- Manifest và PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1b1b2f">
+  <link rel="apple-touch-icon" href="ok.png">
 
   <style>
     body {
@@ -29,7 +29,6 @@
       background-color: #262638;
       padding: 15px;
       border-radius: 15px;
-      display: block;
       max-width: 95%;
       margin: auto;
     }
@@ -115,7 +114,6 @@
   <script>
     const datetimeEl = document.getElementById("datetime");
     const timerEl = document.getElementById("timer");
-
     let secondsElapsed = 0;
 
     function updateTime() {
@@ -123,10 +121,8 @@
       const date = now.toISOString().split('T')[0];
       const time = now.toTimeString().split(' ')[0];
       datetimeEl.textContent = `${date} ${time}`;
-
       secondsElapsed++;
       if (secondsElapsed > 300) secondsElapsed = 0;
-
       const minutes = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
       const seconds = String(secondsElapsed % 60).padStart(2, '0');
       timerEl.textContent = `${minutes}:${seconds}`;
@@ -136,14 +132,11 @@
     setInterval(updateTime, 1000);
   </script>
 
-  <!-- Đăng ký Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(reg => console.log('✅ Service Worker registered', reg))
-          .catch(err => console.error('❌ Service Worker registration failed:', err));
-      });
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(() => console.log('✅ Service Worker registered'))
+        .catch(error => console.error('❌ Service Worker registration failed:', error));
     }
   </script>
 </body>
