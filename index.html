@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Safety QR Code</title>
 
   <!-- Cấu hình iOS Web App -->
@@ -11,25 +11,27 @@
   <meta name="apple-mobile-web-app-title" content="QR Safety">
   <link rel="apple-touch-icon" href="https://i.postimg.cc/N01Hhdcn/ok.png">
 
-  <!-- Cấu hình Android Chrome -->
-  <meta name="mobile-web-app-capable" content="yes">
+  <!-- Manifest và PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1b1b2f">
 
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
+    body {
+      font-family: Arial, sans-serif;
       background-color: #1b1b2f;
       color: white;
-      font-family: Arial, sans-serif;
       text-align: center;
+      padding: 15px;
+      margin: 0;
     }
 
     .container {
       background-color: #262638;
       padding: 15px;
       border-radius: 15px;
+      display: block;
       max-width: 95%;
-      margin: 20px auto;
+      margin: auto;
     }
 
     .name-row {
@@ -123,11 +125,7 @@
       datetimeEl.textContent = `${date} ${time}`;
 
       secondsElapsed++;
-
-      // Reset every 5 minutes (300 seconds)
-      if (secondsElapsed > 300) {
-        secondsElapsed = 0;
-      }
+      if (secondsElapsed > 300) secondsElapsed = 0;
 
       const minutes = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
       const seconds = String(secondsElapsed % 60).padStart(2, '0');
@@ -136,6 +134,17 @@
 
     updateTime();
     setInterval(updateTime, 1000);
+  </script>
+
+  <!-- Đăng ký Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('✅ Service Worker registered', reg))
+          .catch(err => console.error('❌ Service Worker registration failed:', err));
+      });
+    }
   </script>
 </body>
 </html>
