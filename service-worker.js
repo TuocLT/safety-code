@@ -1,23 +1,11 @@
-const CACHE_NAME = "qr-safety-cache-v1";
-const urlsToCache = [
-  "/safety-code/",
-  "/safety-code/index.html",
-  "/safety-code/manifest.json",
-  "/safety-code/service-worker.js",
-  "https://i.postimg.cc/1XtJX4Zx/Superqr-svg.png",
-  "https://i.postimg.cc/N01Hhdcn/ok.png"
-];
-
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-  );
+self.addEventListener('install', function (event) {
+  console.log('[ServiceWorker] Installed');
 });
 
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
-  );
+self.addEventListener('activate', function (event) {
+  console.log('[ServiceWorker] Activated');
+});
+
+self.addEventListener('fetch', function (event) {
+  // Cache-first or network-first strategy có thể thêm sau nếu cần
 });
